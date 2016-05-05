@@ -18,7 +18,7 @@
 <!--从git获取源码-->
 	<scm>
 		<connection>scm:git:git://github.com/CmonLea/LifeCalendar-Android.git</connection>
-		<developerConnection>scm:git:git@github.com:kinow/jenkins-testlink-plugin-the-definitive-guide.git</developerConnection>
+		<developerConnection>scm:git:git@github.com:CmonLea/LifeCalendar-Android.git</developerConnection>
 		<url>https://github.com/CmonLea/LifeCalendar-Android.git</url>
 	</scm>
 
