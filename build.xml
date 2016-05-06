@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF8" standalone="no"?>
+<!--  This ant script is  for LifeCalendar Android-->
+   		 
+    <project basedir="." default="junitreport" name="MoblieTestCase">
+	<property environment="env"/>
+    
+	  <property name="junit.output.dir" value="junitreport"/>
+	 <property name="xml.output.dir" value="junitxml"/>
+	
+	<property name="src.dir"     value="src/test/java"/>
+   
+	<property name="build.dir"   value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    
+	<property name="jar.dir"     value="${build.dir}/jar"/>
+	
+	<property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+	 <property name="lib.dir" value="lib"/>
+    
+    <path id="MoblieTestCase.classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+	
+	<target name="clean">
+          <delete dir="${build.dir}"/>
+		  <delete dir="${junit.output.dir}"/>
+		  <delete dir="${xml.output.dir}"/>
+    </target>
+  
+    <target name="compile" depends="clean" >
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}"  classpathref="MoblieTestCase.classpath"/>
+    </target>
+	
+	<target name="junit" depends="compile">
+        <mkdir dir="${xml.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr" showoutput="true">
+            <formatter type="xml"/>	
+			
+			 <classpath refid="MoblieTestCase.classpath"/>
+			
+			 <classpath>
+			 <pathelement path="${build.dir}/classes"/>
+			  </classpath>
+			 
+            <batchtest fork="yes" todir="${xml.output.dir}">
+                <fileset dir="${src.dir}" includes="**/*.java"/>
+            </batchtest>
+        </junit>
+	
+    </target>
+    
+    <target name="junitreport" depends="junit">
+        <mkdir dir="${junit.output.dir}"/>
+		<junitreport todir="${junit.output.dir}">
+            <fileset dir="${xml.output.dir}" includes="TEST-*.xml"/>
+			<report todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+	
+	</project>
