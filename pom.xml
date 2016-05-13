@@ -38,7 +38,7 @@
 	</build>
 	<dependencies>
 	<dependency>
-			<groupId>io.appium</groupId>
+			<groupId>appium.io</groupId>
 			<artifactId>java-client</artifactId>
 			<version>3.4.1</version>
 		</dependency>
@@ -53,7 +53,7 @@
 			<version>2.53.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.junit</groupId>
+			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
 			<scope>test</scope>
