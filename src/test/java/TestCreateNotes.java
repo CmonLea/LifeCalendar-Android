@@ -30,9 +30,9 @@ public class TestCreateNotes {
 
 	@Test
 	public void createNotes() {
-		for (int i = 1; i <= 2000; i++) {
+		for (int i = 1; i <= 5; i++) {
 			driver.findElementByClassName("android.widget.EditText").sendKeys(
-					"记事测试" + i);// 输入记事标题
+					"璁颁簨娴嬭瘯" + i);// 杈撳叆璁颁簨鏍囬
 
 			Set<String> contextNames = driver.getContextHandles();
 
@@ -41,8 +41,8 @@ public class TestCreateNotes {
 
 			driver.findElementById("myEditor").click();
 			driver.findElementByClassName("edui-body-container").sendKeys(
-					"记事内容" + i);// 输入记事内容
-			driver.context("NATIVE_APP");// 切换到Native_app
+					"璁颁簨鍐呭" + i);// 杈撳叆璁颁簨鍐呭
+			driver.context("NATIVE_APP");// 鍒囨崲鍒癗ative_app
 			driver.findElementById("com.updrv.lifecalendar:id/common_top_next")
 					.click();
 			driver.startActivity("com.updrv.lifecalendar",
