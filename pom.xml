@@ -13,7 +13,7 @@
 	<!--<url>http://www.160.com</url>-->
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.sourceEncoding>gbk</project.build.sourceEncoding>
 	</properties>
 <!--从git获取源码-->
 	<scm>
