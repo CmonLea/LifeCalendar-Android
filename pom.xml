@@ -38,7 +38,7 @@
 	</build>
 	<dependencies>
 	<dependency>
-			<groupId>appium.io</groupId>
+			<groupId>io.appium</groupId>
 			<artifactId>java-client</artifactId>
 			<version>3.4.1</version>
 		</dependency>
