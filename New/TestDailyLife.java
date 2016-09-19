@@ -54,7 +54,7 @@ public void setUp() throws Exception{
 	capabilities.setCapability("appPackage", "com.updrv.lifecalendar");
 	capabilities.setCapability("appActivity", ".activity.MainActivity");
 	driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);  
+	driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);  
 }
 
 	@Test
@@ -136,75 +136,84 @@ public void setUp() throws Exception{
 
 	@Test
 	public void testShare() {
+		boolean isQQInstalled = driver.isAppInstalled("com.tencent.mobileqq");
+		boolean isWechatInstalled = driver.isAppInstalled("com.tencent.mm");
 
-		try {
-			driver.findElementById(
-					"com.updrv.lifecalendar:id/tv_menu_main_day_life").click();
-			getDayLifeElementHeight();// 判断日子页是否显示活动
-			driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.findElementById(
+				"com.updrv.lifecalendar:id/tv_menu_main_day_life").click();
+		getDayLifeElementHeight();// 判断日子页是否显示活动
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-			WebElement fenxiang = driver
-					.findElementById("com.updrv.lifecalendar:id/day_share_details");
-			fenxiang.click();
+		WebElement fenxiang = driver
+				.findElementById("com.updrv.lifecalendar:id/day_share_details");
+		fenxiang.click();
 
-			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-			List<WebElement> qudao = driver
-					.findElementsByXPath("//android.widget.GridView/android.widget.LinearLayout");
-			int index = (int) (Math.random() * 4);
-			qudao.get(index).click();
-			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-			if (driver.isAppInstalled("com.tencent.mobileqq") && index == 0) {
-				System.out.println("分享日子到QQ");
-				// Assert.assertEquals("com.tencent.mobileqq/.activity.RegisterGuideActivity",
-				// driver.currentActivity());
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		List<WebElement> qudao = driver
+				.findElementsByXPath("//android.widget.GridView/android.widget.LinearLayout");
+		int index = (int) (Math.random() * 4);
+		// qudao.get(index).click();
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+
+		switch (index) {
+		case 0:
+			if (isQQInstalled) {
+				qudao.get(index).click();
 				driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-				takeScreenShot("分享日子到QQ");
+				takeScreenShot("分享日子到QQ好友");
 				Assert.assertEquals(".activity.ForwardRecentActivity",
 						driver.currentActivity());
 
-			} else if (!driver.isAppInstalled("com.tencent.mobileqq")
-					&& index == 0) {
-				takeScreenShot("分享日子到QQ.QQ未安装");
-				System.out.println("QQ未安装");
+			} else {
+				qudao.get(index).click();
+				takeScreenShot("QQ未安装");
+				Assert.assertEquals(false, isQQInstalled);
+			}
+			break;
 
-			} else if (driver.isAppInstalled("com.tencent.mobileqq")
-					&& index == 1) {
-				System.out.println("分享日子到QQ空间");
-				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		case 1:
+			if (isQQInstalled) {
+				qudao.get(index).click();
+				driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 				takeScreenShot("分享日子到QQ空间");
 				Assert.assertEquals(
-						"cooperation.qzone.share.QZoneShareActivity",
+						".cooperation.qzone.share.QZoneShareActivity",
 						driver.currentActivity());
-			} else if (!driver.isAppInstalled("com.tencent.mobileqq")
-					&& index == 1) {
-				takeScreenShot("分享日子到QQ空间失败.QQ未安装");
-				System.out.println("QQ未安装");
 
-			} else if (!driver.isAppInstalled("com.tencent.mm") && index == 2) {
-				takeScreenShot("分享日子到微信好友失败.微信未安装");
-				System.out.println("微信未安装");
-
-			} else if (driver.isAppInstalled("com.tencent.mm") && index == 2) {
-				System.out.println("分享日子到微信好友");
-				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			} else {
+				qudao.get(index).click();
+				takeScreenShot("QQ未安装");
+				Assert.assertEquals(false, isQQInstalled);
+			}
+			break;
+		case 2:
+			if (isWechatInstalled) {
+				qudao.get(index).click();
+				driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 				takeScreenShot("分享日子到微信好友");
-				Assert.assertEquals(".ui.transmit.SelectConversationUI",
+				Assert.assertEquals("ui.transmit.SelectConversationUI",
 						driver.currentActivity());
 
-			} else if (driver.isAppInstalled("com.tencent.mm") && index == 3) {
-				System.out.println("分享日子到微信朋友圈");
-				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-				takeScreenShot("分享日子到微信朋友圈");
+			} else {
+				qudao.get(index).click();
+				takeScreenShot("微信未安装");
+				Assert.assertEquals(false, isWechatInstalled);
+			}
+			break;
+		case 3:
+			if (isWechatInstalled) {
+				qudao.get(index).click();
+				driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+				takeScreenShot("分享日子到微信");
 				Assert.assertEquals(".plugin.sns.ui.SnsUploadUI",
 						driver.currentActivity());
 
-			} else if (!driver.isAppInstalled("com.tencent.mm") && index == 3) {
-				takeScreenShot("分享日子到微信朋友圈失败.微信未安装");
-				System.out.println("微信未安装");
-
+			} else {
+				qudao.get(index).click();
+				takeScreenShot("微信未安装");
+				Assert.assertEquals(false, isWechatInstalled);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			break;
 		}
 	}
 
@@ -304,25 +313,28 @@ public boolean isactivityelementpresent(){
 							"//android.support.v4.view.ViewPager/android.widget.ImageView")
 					.getSize().getHeight();
 
-			starty = ActivityBar + Day_Main_Rel + User_Content
-					+ Notifi;
+			starty =Notifi+DayBar+ActivityBar+Day_Main_Rel + User_Content;
 
 			System.out.println("活动存在时starty=" + starty);
 			startx = DayBar * (1 / 2);
 			endx = DayBar * (1 / 2);
-			endy = DayBar;
-			duration = 500;
+		
+			endy = Notifi+DayBar;	
+			System.out.println("活动存在是endy="+endy);
+			
+			duration = 2000;
 
 			driver.swipe(startx, starty, endx, endy, duration);
          //滑动直至获取到日子图片
 		} else {
 
-			starty = DayBar + Day_Main_Rel + User_Content
-					+ Notifi;
+			starty = Notifi+DayBar + Day_Main_Rel + User_Content;
+			System.out.println("活动不存在时starty=" + starty);
 			startx = DayBar * (1 / 2);
 			endx = DayBar * (1 / 2);
-			endy = DayBar;
-			duration = 500;
+			System.out.println("活动不存在是endy="+endy);
+			endy = Notifi+DayBar;
+			duration = 2000;
 
 			driver.swipe(startx, starty, endx, endy, duration);
 
