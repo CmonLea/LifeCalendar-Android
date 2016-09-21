@@ -1,3 +1,4 @@
+package test.java;
 import io.appium.java_client.android.AndroidDriver;
 
 import java.io.File;
@@ -17,7 +18,9 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -56,7 +59,7 @@ public void setUp() throws Exception{
 	driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 	driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);  
 }
-
+    //@Ignore("演示用")
 	@Test
 	public void testCheckDaylifePicture() throws NoSuchElementException {
 		// 存在活动页面则上拉“活动页面+用户信息+日子内容”个高度以完全显示日子图片
@@ -97,6 +100,7 @@ public void setUp() throws Exception{
 
 		}
 	}
+    //@Ignore("演示用")
 	@Test//测试点赞功能
 	public void testLike() throws NoSuchElementException{
 		//点击日子
@@ -133,7 +137,7 @@ public void setUp() throws Exception{
 		}
 		
 	}
-
+   // @Ignore("演示用")
 	@Test
 	public void testShare() {
 		boolean isQQInstalled = driver.isAppInstalled("com.tencent.mobileqq");
@@ -218,14 +222,24 @@ public void setUp() throws Exception{
 	}
 
 	@Test
-	public void testReview() throws NoSuchElementException {
+	public void testReview(){
 		try {
 			getDayLifeElementHeight();
-			driver.findElementById("com.updrv.lifecalendar:id/day_input_message")
+			driver.findElementById("com.updrv.lifecalendar:id/user_comment")
 					.click();
-			driver
-					.findElementById("com.updrv.lifecalendar:id/common_msg_input_et")
-.sendKeys("are you ok?");;
+//			driver
+//					.findElementById("com.updrv.lifecalendar:id/common_msg_input_et")
+//.sendKeys("are you ok?");
+			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		//	driver
+//			.findElementByClassName("android.widget.EditText")
+//.clear();
+//			driver
+//			.findElement(((WebElement) By.className("android.widget.EditText"))
+//.sendKeys("666"));
+			
+			driver.findElement(By.className("android.widget.EditText")).sendKeys("abc");
+			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 			driver.findElementById(
 					"com.updrv.lifecalendar:id/common_msg_input_commit").click();
 		} catch (Exception e) {
@@ -259,10 +273,11 @@ public void takeScreenShot(String filename) {
 	  }
 	 }
 //此方法判断日子页面是否存在活动页面
-public boolean isactivityelementpresent(){
+public boolean isactivityelementpresent(){driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	
 	driver.findElementById(
 			"com.updrv.lifecalendar:id/lin_menu_main_day_life").click();
-	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 	boolean isactivityelementpresent = false;
 	try {
 		isactivityelementpresent = driver
